@@ -23,6 +23,7 @@ class App extends Component {
         }
     }
   render() {
+      const activeCurrency = this.state.activeCurrency;
     return (
       <div className="App">
        <CurrencyDisplay id={"bitcoin"} />
@@ -36,6 +37,10 @@ class App extends Component {
                   {currency.name}
               </button>
           ) )}
+          <CurrencyDisplay
+              key={activeCurrency}
+              id={CURRENCIES[activeCurrency].id}
+          />
       </div>
     );
   }
