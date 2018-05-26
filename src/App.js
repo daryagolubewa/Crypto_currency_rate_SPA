@@ -26,12 +26,11 @@ class App extends Component {
       const activeCurrency = this.state.activeCurrency;
     return (
       <div className="App">
-       <CurrencyDisplay id={"bitcoin"} />
           {CURRENCIES.map((currency, index) => (
               <button
               key={index}
               onClick={() => {
-                  console.log("Clicked index " +index);
+                  this.setState({activeCurrency: index});
               }}
               >
                   {currency.name}
@@ -66,7 +65,18 @@ class CurrencyDisplay extends Component {
     render() {
        const currencyData = this.state.currencyData;
         if(!currencyData) return <div>Loading...</div>;
-        return <div>{JSON.stringify(currencyData)}</div>;
+        return (
+            <div>
+                <h1>
+                    Текущий курс {currencyData[0].name} составляет:
+                </h1>
+                <p>Цена в долларах за штуку: {currencyData[0].percent_change_1h}</p>
+                <p>Цена в биткоинах за штуку: {currencyData[0].price_btc} </p>
+                <p>Общая стоимость валюты в долларах: {currencyData[0].market_cap_usd}</p>
+                <p>Изменение курса за 1 час (%):  {currencyData[0].percent_change_1h}</p>
+                <p>Изменение курса за 1 день (%): {currencyData[0].percent_change_24h}</p>
+                <p>Изменение курса за неделю (%): {currencyData[0].percent_change_7d}</p>
+            </div>
+        );
     }
 }
-
