@@ -40,6 +40,7 @@ class App extends Component {
           <CurrencyDisplay
               key={activeCurrency}
               id={CURRENCIES[activeCurrency].id}
+              name={CURRENCIES[activeCurrency].name}
           />
       </div>
     );
@@ -49,10 +50,23 @@ class App extends Component {
 export default App;
 
 class CurrencyDisplay extends Component {
+    constructor() {
+        super();
+        this.state = {
+            currencyData: null
+        };
+    }
+    componentDidMount() {
+        const id = this.props.id;
+        const URL = 'https://api.coinmarketcap.com/v1/ticker/' + id + '/';
+        fetch(URL).then(res => res.json()).then(json => {
+            this.setState({currencyData: json});
+        });
+    }
     render() {
-        return (
-            <h1>Showing currency rate for {this.props.id} </h1>
-        );
+       const currencyData = this.state.currencyData;
+        if(!currencyData) return <div>Loading...</div>;
+        return <div>{JSON.stringify(currencyData)}</div>;
     }
 }
 
